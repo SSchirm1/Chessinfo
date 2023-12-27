@@ -60,14 +60,22 @@ namespace Chessinfo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,DateTime,Title, classicalRating, Country")] Player player)
         {
-            
-            
-            if (ModelState.IsValid)
+            ViewBag.Countries = _context.Country.ToList();
+
+            player.Country = _context.Country?.FirstOrDefault(country => country.Id == player.Country.Id);
+
+
+            _context.Add(player);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+            /*if (ModelState.IsValid )
             {
+
                 _context.Add(player);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            }*/
             return View(player);
         }
 
