@@ -12,6 +12,7 @@ namespace Chessinfo.Models
         public DateTime BirthDate { get; set; }
         public string Title { get; set; }
 
+
         public Country? country { get; set; }
         public bool IsMale { get; set; }
         public float? classicalRating { get; set; }
