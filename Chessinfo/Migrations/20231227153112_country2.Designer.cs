@@ -4,6 +4,7 @@ using Chessinfo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chessinfo.Migrations
 {
     [DbContext(typeof(ChessinfoContext))]
-    partial class ChessinfoContextModelSnapshot : ModelSnapshot
+    [Migration("20231227153112_country2")]
+    partial class country2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace Chessinfo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BlackId")
+                    b.Property<int?>("BlackId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WhiteId")
+                    b.Property<int?>("WhiteId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -80,7 +83,7 @@ namespace Chessinfo.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CountryId")
+                    b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -139,15 +142,11 @@ namespace Chessinfo.Migrations
                 {
                     b.HasOne("Chessinfo.Models.Player", "Black")
                         .WithMany()
-                        .HasForeignKey("BlackId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BlackId");
 
                     b.HasOne("Chessinfo.Models.Player", "White")
                         .WithMany()
-                        .HasForeignKey("WhiteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WhiteId");
 
                     b.Navigation("Black");
 
@@ -158,9 +157,7 @@ namespace Chessinfo.Migrations
                 {
                     b.HasOne("Chessinfo.Models.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
                 });

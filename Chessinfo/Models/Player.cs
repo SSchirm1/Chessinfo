@@ -13,7 +13,7 @@ namespace Chessinfo.Models
         public string Title { get; set; }
 
 
-        public Country? country { get; set; }
+        public Country Country { get; set; }
         public bool IsMale { get; set; }
         public float? classicalRating { get; set; }
         public float? rapidRating { get; set; }

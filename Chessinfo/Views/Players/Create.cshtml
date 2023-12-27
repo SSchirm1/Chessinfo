@@ -33,6 +33,17 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Country" class="control-label"></label>
+                <select id="countriesSelect" name="Country.Id" asp-for="Country" class="form-control">
+                    <option>Select Country</option>
+                    @foreach (var country in ViewBag.Countries)
+                    {
+                        <option value="@country.Id">@country.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Country.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="classicalRating" class="control-label"></label>
                 <input asp-for="classicalRating" class="form-control" />
                 <span asp-validation-for="classicalRating" class="text-danger"></span>

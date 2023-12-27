@@ -14,9 +14,12 @@ namespace Chessinfo.Controllers
     {
         private readonly ChessinfoContext _context;
 
+        public List<Country> _countries;
+
         public PlayersController(ChessinfoContext context)
         {
             _context = context;
+
         }
 
         // GET: Players
@@ -46,6 +49,7 @@ namespace Chessinfo.Controllers
         // GET: Players/Create
         public IActionResult Create()
         {
+            ViewBag.Countries = _context.Country.ToList();
             return View();
         }
 
@@ -54,8 +58,10 @@ namespace Chessinfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,DateTime,Title, classicalRating")] Player player)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,DateTime,Title, classicalRating, Country")] Player player)
         {
+            
+            
             if (ModelState.IsValid)
             {
                 _context.Add(player);
@@ -68,6 +74,7 @@ namespace Chessinfo.Controllers
         // GET: Players/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.Countries = _context.Country.ToList();
             if (id == null)
             {
                 return NotFound();
@@ -86,7 +93,7 @@ namespace Chessinfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateTime,Title")] Player player)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateTime,Title, classicalRating, Country")] Player player)
         {
             if (id != player.Id)
             {
