@@ -28,7 +28,7 @@ namespace Chessinfo.Controllers
         {
             
 
-            return View(await _context.Player.Include(p => p.Country).Include(p => p.Title).ToListAsync());
+            return View(await _context.Player.Include(p => p.Country).Include(p => p.Title).OrderByDescending(p => p.classicalRating).ToListAsync());
         }
 
         // GET: Players/Details/5

@@ -22,6 +22,7 @@ namespace Chessinfo.Controllers
         // GET: Countries
         public async Task<IActionResult> Index()
         {
+            ViewData["Title"] = "Land"; 
             return View(await _context.Country.ToListAsync());
         }
 
