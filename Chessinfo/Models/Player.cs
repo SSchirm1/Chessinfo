@@ -11,7 +11,7 @@ namespace Chessinfo.Models
 
         public DateTime BirthDate { get; set; }
         
-        
+        public int? CountryId { get; set; }
 
         public Country? Country { get; set; }
         public bool IsMale { get; set; }

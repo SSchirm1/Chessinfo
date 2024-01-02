@@ -25,7 +25,9 @@ namespace Chessinfo.Controllers
         // GET: Players
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Player.ToListAsync());
+            
+
+            return View(await _context.Player.Include(p => p.Country).ToListAsync());
         }
 
         // GET: Players/Details/5
@@ -61,8 +63,7 @@ namespace Chessinfo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,DateTime, classicalRating, Country")] Player player)
         {
-            ViewBag.Countries = _context.Country.ToList();
-
+     
             player.Country = _context.Country?.FirstOrDefault(country => country.Id == player.Country.Id);
 
             if (ModelState.IsValid )
