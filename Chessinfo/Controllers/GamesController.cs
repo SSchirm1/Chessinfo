@@ -22,7 +22,7 @@ namespace Chessinfo.Controllers
         // GET: Games
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Game.ToListAsync());
+            return View(await _context.Game.Include(game => game.White).Include(game => game.Black).ToListAsync());
         }
 
         // GET: Games/Details/5

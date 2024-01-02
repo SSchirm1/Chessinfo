@@ -28,7 +28,7 @@ namespace Chessinfo.Controllers
         {
             
 
-            return View(await _context.Player.Include(p => p.Country).ToListAsync());
+            return View(await _context.Player.Include(p => p.Country).Include(p => p.Title).ToListAsync());
         }
 
         // GET: Players/Details/5
@@ -82,6 +82,7 @@ namespace Chessinfo.Controllers
         {
 
             ViewBag.Countries = _context.Country.ToList();
+            ViewBag.Titles = _context.Title?.ToList();
             if (id == null)
             {
                 return NotFound();
@@ -101,7 +102,7 @@ namespace Chessinfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateTime, classicalRating, Country, CountryId")] Player player)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateTime, classicalRating, Country, CountryId, TitleId")] Player player)
         {
             if (id != player.Id)
             {

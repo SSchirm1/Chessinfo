@@ -27,8 +27,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
-            <td>@Html.DisplayFor(modelItem=>item.WhiteId)</td>
-                <td>@Html.DisplayFor(modelItem => item.BlackId)</td>
+            <td>@(item.White.FirstName + " " + @item.White.LastName)
+               </td>
+                <td>@(item.Black.FirstName + " " + @item.Black.LastName)</td>
             <td>@Html.DisplayFor(modelItem => item.Result)</td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -34,15 +34,27 @@
                 <input asp-for="classicalRating" class="form-control" />
                 <span asp-validation-for="classicalRating" class="text-danger"></span>
             </div>
+            <div>
+                <label asp-for="TitleId">Title</label>
+                <select asp-for="TitleId">
+                    @foreach (var title in ViewBag.Titles)
+                    {
+
+                        <option value="@title.Id">@title.Name</option>
+                    }
+                </select>
+               
+            </div>
              <div class="form-group">
                 <label asp-for="Country" class="control-label"></label>
-                <p>Country: @Model.Country?.Name</p>
+                
                 <select id="countriesSelect" asp-for="CountryId">
                     @foreach(var country in @ViewBag.Countries)
                     {
                         <option value="@country.Id" id=@country.Id asp-for="Country">@country.Name</option>
                     }
                 </select>
+               
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
             <div class="form-group">

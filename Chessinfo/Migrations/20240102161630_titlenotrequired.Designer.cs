@@ -4,6 +4,7 @@ using Chessinfo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chessinfo.Migrations
 {
     [DbContext(typeof(ChessinfoContext))]
-    partial class ChessinfoContextModelSnapshot : ModelSnapshot
+    [Migration("20240102161630_titlenotrequired")]
+    partial class titlenotrequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,10 +65,6 @@ namespace Chessinfo.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BlackId");
-
-                    b.HasIndex("WhiteId");
 
                     b.ToTable("Game");
                 });
@@ -133,21 +132,6 @@ namespace Chessinfo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Title");
-                });
-
-            modelBuilder.Entity("Chessinfo.Models.Game", b =>
-                {
-                    b.HasOne("Chessinfo.Models.Player", "Black")
-                        .WithMany()
-                        .HasForeignKey("BlackId");
-
-                    b.HasOne("Chessinfo.Models.Player", "White")
-                        .WithMany()
-                        .HasForeignKey("WhiteId");
-
-                    b.Navigation("Black");
-
-                    b.Navigation("White");
                 });
 
             modelBuilder.Entity("Chessinfo.Models.Player", b =>
