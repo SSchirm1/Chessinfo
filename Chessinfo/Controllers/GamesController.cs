@@ -46,6 +46,7 @@ namespace Chessinfo.Controllers
         // GET: Games/Create
         public IActionResult Create()
         {
+            ViewBag.Players = _context.Player.ToList();
             return View();
         }
 
@@ -54,8 +55,10 @@ namespace Chessinfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date")] Game game)
+        public async Task<IActionResult> Create([Bind("Id,Date, WhiteId, BlackId, Result")] Game game)
         {
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(game);

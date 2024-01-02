@@ -1,4 +1,4 @@
-﻿@model Chessinfo.Models.Game
+﻿@model Chessinfo.Models.Game 
 
 @{
     ViewData["Title"] = "Create";
@@ -18,20 +18,39 @@
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="White" class="control-label"></label>
-                <input asp-for="White" class="form-control" />
-                <span asp-validation-for="White" class="text-danger"></span>
+                <label asp-for="WhiteId" class="control-label"></label>
+                <select id="playerSelectWhite"  asp-for="WhiteId">
+                    @foreach (var player in ViewBag.Players)
+                    {
+                        <option value="@player.Id">@player.FirstName @player.LastName</option>
+                    }
+                </select>
+                <!-- <input asp-for="White" class="form-control" /> -->
+                <span asp-validation-for="WhiteId" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                <label asp-for="Black" class="control-label"></label>
-                <input asp-for="Black" class="form-control" />
-                <span asp-validation-for="Black" class="text-danger"></span>
+                <label asp-for="BlackId" class="control-label"></label>
+                <select id="playerSelectBlack"  asp-for="BlackId">
+                    @foreach (var player in ViewBag.Players)
+                    {
+                        <option value="@player.Id">@player.FirstName @player.LastName</option>
+                    }
+                </select>
+                <span asp-validation-for="BlackId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Black" class="control-label"></label>
-                <input asp-for="Black" class="form-control" />
-                <span asp-validation-for="Black" class="text-danger"></span>
+
+            <div>
+                <label asp-for="Result">
+                    <select asp-for="Result">
+                        <option value="White">White</option>
+                        <option value="Draw">Draw</option>
+                        <option value="Black">Black</option>
+                    </select>
+                </label>  
+
             </div>
+           
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

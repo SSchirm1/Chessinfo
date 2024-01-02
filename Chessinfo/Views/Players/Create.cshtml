@@ -27,11 +27,7 @@
                 <input asp-for="BirthDate" class="form-control" />
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
+           
             <div class="form-group">
                 <label asp-for="Country" class="control-label"></label>
                 <select id="countriesSelect" name="Country.Id" asp-for="Country" class="form-control">
@@ -42,6 +38,17 @@
                     }
                 </select>
                 <span asp-validation-for="Country.Id" class="text-danger"></span>
+            </div>
+            <div>
+                <label>Title</label>
+                <select name="TitleId">
+
+                    @foreach (var title in ViewBag.Titles)
+                    {
+                        <option value="@title.Id">@title.Name</option>
+                    }
+                </select>
+               
             </div>
             <div class="form-group">
                 <label asp-for="classicalRating" class="control-label"></label>

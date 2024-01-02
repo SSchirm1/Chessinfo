@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chessinfo.Migrations
 {
     [DbContext(typeof(ChessinfoContext))]
-    [Migration("20231227182314_country3")]
-    partial class country3
+    [Migration("20240102131450_titleid1")]
+    partial class titleid1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,11 +34,9 @@ namespace Chessinfo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CountryCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -54,13 +52,16 @@ namespace Chessinfo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BlackId")
+                    b.Property<int?>("BlackId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WhiteId")
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("WhiteId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -83,7 +84,7 @@ namespace Chessinfo.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CountryId")
+                    b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -97,9 +98,8 @@ namespace Chessinfo.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TitleId")
+                        .HasColumnType("int");
 
                     b.Property<float?>("blitzRating")
                         .HasColumnType("real");
@@ -126,11 +126,9 @@ namespace Chessinfo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TitleCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -142,15 +140,11 @@ namespace Chessinfo.Migrations
                 {
                     b.HasOne("Chessinfo.Models.Player", "Black")
                         .WithMany()
-                        .HasForeignKey("BlackId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BlackId");
 
                     b.HasOne("Chessinfo.Models.Player", "White")
                         .WithMany()
-                        .HasForeignKey("WhiteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WhiteId");
 
                     b.Navigation("Black");
 
@@ -161,9 +155,7 @@ namespace Chessinfo.Migrations
                 {
                     b.HasOne("Chessinfo.Models.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CountryId");
 
                     b.Navigation("Country");
                 });

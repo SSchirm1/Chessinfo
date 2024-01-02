@@ -5,27 +5,27 @@
 namespace Chessinfo.Migrations
 {
     /// <inheritdoc />
-    public partial class country1 : Migration
+    public partial class title5 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "countryId",
+                name: "TitleId",
                 table: "Player",
                 type: "int",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Player_countryId",
+                name: "IX_Player_TitleId",
                 table: "Player",
-                column: "countryId");
+                column: "TitleId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Player_Country_countryId",
+                name: "FK_Player_Title_TitleId",
                 table: "Player",
-                column: "countryId",
-                principalTable: "Country",
+                column: "TitleId",
+                principalTable: "Title",
                 principalColumn: "Id");
         }
 
@@ -33,15 +33,15 @@ namespace Chessinfo.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Player_Country_countryId",
+                name: "FK_Player_Title_TitleId",
                 table: "Player");
 
             migrationBuilder.DropIndex(
-                name: "IX_Player_countryId",
+                name: "IX_Player_TitleId",
                 table: "Player");
 
             migrationBuilder.DropColumn(
-                name: "countryId",
+                name: "TitleId",
                 table: "Player");
         }
     }

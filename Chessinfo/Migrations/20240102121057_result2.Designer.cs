@@ -4,6 +4,7 @@ using Chessinfo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chessinfo.Migrations
 {
     [DbContext(typeof(ChessinfoContext))]
-    partial class ChessinfoContextModelSnapshot : ModelSnapshot
+    [Migration("20240102121057_result2")]
+    partial class result2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,8 +58,8 @@ namespace Chessinfo.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Result")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Result")
+                        .HasColumnType("int");
 
                     b.Property<int?>("WhiteId")
                         .HasColumnType("int");
@@ -90,9 +93,6 @@ namespace Chessinfo.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TitleId")
-                        .HasColumnType("int");
 
                     b.Property<float?>("blitzRating")
                         .HasColumnType("real");

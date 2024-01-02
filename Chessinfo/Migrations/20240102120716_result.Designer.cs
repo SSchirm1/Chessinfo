@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chessinfo.Migrations
 {
     [DbContext(typeof(ChessinfoContext))]
-    [Migration("20231227153112_country2")]
-    partial class country2
+    [Migration("20240102120716_result")]
+    partial class result
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,11 +34,9 @@ namespace Chessinfo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CountryCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -64,10 +62,6 @@ namespace Chessinfo.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BlackId");
-
-                    b.HasIndex("WhiteId");
 
                     b.ToTable("Game");
                 });
@@ -97,10 +91,6 @@ namespace Chessinfo.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<float?>("blitzRating")
                         .HasColumnType("real");
 
@@ -126,31 +116,14 @@ namespace Chessinfo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TitleCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Title");
-                });
-
-            modelBuilder.Entity("Chessinfo.Models.Game", b =>
-                {
-                    b.HasOne("Chessinfo.Models.Player", "Black")
-                        .WithMany()
-                        .HasForeignKey("BlackId");
-
-                    b.HasOne("Chessinfo.Models.Player", "White")
-                        .WithMany()
-                        .HasForeignKey("WhiteId");
-
-                    b.Navigation("Black");
-
-                    b.Navigation("White");
                 });
 
             modelBuilder.Entity("Chessinfo.Models.Player", b =>

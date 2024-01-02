@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chessinfo.Migrations
 {
     [DbContext(typeof(ChessinfoContext))]
-    [Migration("20231227152551_country1")]
-    partial class country1
+    [Migration("20240102140822_titleid6")]
+    partial class titleid6
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,11 +34,9 @@ namespace Chessinfo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CountryCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -60,14 +58,13 @@ namespace Chessinfo.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("WhiteId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BlackId");
-
-                    b.HasIndex("WhiteId");
 
                     b.ToTable("Game");
                 });
@@ -83,6 +80,9 @@ namespace Chessinfo.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -94,9 +94,8 @@ namespace Chessinfo.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("TitleId")
+                        .HasColumnType("int");
 
                     b.Property<float?>("blitzRating")
                         .HasColumnType("real");
@@ -104,15 +103,12 @@ namespace Chessinfo.Migrations
                     b.Property<float?>("classicalRating")
                         .HasColumnType("real");
 
-                    b.Property<int?>("countryId")
-                        .HasColumnType("int");
-
                     b.Property<float?>("rapidRating")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("countryId");
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Player");
                 });
@@ -126,11 +122,9 @@ namespace Chessinfo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TitleCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -138,28 +132,13 @@ namespace Chessinfo.Migrations
                     b.ToTable("Title");
                 });
 
-            modelBuilder.Entity("Chessinfo.Models.Game", b =>
-                {
-                    b.HasOne("Chessinfo.Models.Player", "Black")
-                        .WithMany()
-                        .HasForeignKey("BlackId");
-
-                    b.HasOne("Chessinfo.Models.Player", "White")
-                        .WithMany()
-                        .HasForeignKey("WhiteId");
-
-                    b.Navigation("Black");
-
-                    b.Navigation("White");
-                });
-
             modelBuilder.Entity("Chessinfo.Models.Player", b =>
                 {
-                    b.HasOne("Chessinfo.Models.Country", "country")
+                    b.HasOne("Chessinfo.Models.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("countryId");
+                        .HasForeignKey("CountryId");
 
-                    b.Navigation("country");
+                    b.Navigation("Country");
                 });
 #pragma warning restore 612, 618
         }

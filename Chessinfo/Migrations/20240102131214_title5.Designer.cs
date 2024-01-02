@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chessinfo.Migrations
 {
     [DbContext(typeof(ChessinfoContext))]
-    [Migration("20231227151536_country")]
-    partial class country
+    [Migration("20240102131214_title5")]
+    partial class title5
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,11 +34,9 @@ namespace Chessinfo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CountryCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -59,6 +57,9 @@ namespace Chessinfo.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Result")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("WhiteId")
                         .HasColumnType("int");
@@ -83,6 +84,9 @@ namespace Chessinfo.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -94,9 +98,8 @@ namespace Chessinfo.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("TitleId")
+                        .HasColumnType("int");
 
                     b.Property<float?>("blitzRating")
                         .HasColumnType("real");
@@ -108,6 +111,10 @@ namespace Chessinfo.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("TitleId");
 
                     b.ToTable("Player");
                 });
@@ -121,11 +128,9 @@ namespace Chessinfo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TitleCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -146,6 +151,21 @@ namespace Chessinfo.Migrations
                     b.Navigation("Black");
 
                     b.Navigation("White");
+                });
+
+            modelBuilder.Entity("Chessinfo.Models.Player", b =>
+                {
+                    b.HasOne("Chessinfo.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
+
+                    b.HasOne("Chessinfo.Models.Title", "Title")
+                        .WithMany()
+                        .HasForeignKey("TitleId");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Title");
                 });
 #pragma warning restore 612, 618
         }

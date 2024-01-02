@@ -50,6 +50,7 @@ namespace Chessinfo.Controllers
         public IActionResult Create()
         {
             ViewBag.Countries = _context.Country.ToList();
+            ViewBag.Titles = _context.Title.ToList();
             return View();
         }
 
@@ -58,24 +59,19 @@ namespace Chessinfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,DateTime,Title, classicalRating, Country")] Player player)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,DateTime, classicalRating, Country")] Player player)
         {
             ViewBag.Countries = _context.Country.ToList();
 
             player.Country = _context.Country?.FirstOrDefault(country => country.Id == player.Country.Id);
 
-
-            _context.Add(player);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-
-            /*if (ModelState.IsValid )
+            if (ModelState.IsValid )
             {
 
                 _context.Add(player);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }*/
+            }
             return View(player);
         }
 
@@ -101,7 +97,7 @@ namespace Chessinfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateTime,Title, classicalRating, Country")] Player player)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateTime, classicalRating, Country")] Player player)
         {
             if (id != player.Id)
             {
@@ -112,6 +108,9 @@ namespace Chessinfo.Controllers
             {
                 try
                 {
+                    ViewBag.Countries = _context.Country.ToList();
+
+                    player.Country = _context.Country?.FirstOrDefault(country => country.Id == player.Country.Id);
                     _context.Update(player);
                     await _context.SaveChangesAsync();
                 }
