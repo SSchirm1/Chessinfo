@@ -37,10 +37,10 @@
              <div class="form-group">
                 <label asp-for="Country" class="control-label"></label>
                 <p>Country: @Model.Country?.Name</p>
-                <select id="countriesSelect" asp-for="Country">
+                <select id="countriesSelect" asp-for="CountryId">
                     @foreach(var country in @ViewBag.Countries)
                     {
-                        <option id=@country.Id asp-for="Country">@country.Name</option>
+                        <option value="@country.Id" id=@country.Id asp-for="Country">@country.Name</option>
                     }
                 </select>
                 <span asp-validation-for="Country" class="text-danger"></span>

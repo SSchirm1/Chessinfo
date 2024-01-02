@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Chessinfo.Data;
 using Chessinfo.Models;
+using Chessinfo.Migrations;
 
 namespace Chessinfo.Controllers
 {
@@ -79,6 +80,7 @@ namespace Chessinfo.Controllers
         // GET: Players/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+
             ViewBag.Countries = _context.Country.ToList();
             if (id == null)
             {
@@ -86,6 +88,7 @@ namespace Chessinfo.Controllers
             }
 
             var player = await _context.Player.FindAsync(id);
+            
             if (player == null)
             {
                 return NotFound();
@@ -98,7 +101,7 @@ namespace Chessinfo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateTime, classicalRating, Country")] Player player)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateTime, classicalRating, Country, CountryId")] Player player)
         {
             if (id != player.Id)
             {
@@ -109,9 +112,8 @@ namespace Chessinfo.Controllers
             {
                 try
                 {
-                    ViewBag.Countries = _context.Country.ToList();
-
-                    player.Country = _context.Country?.FirstOrDefault(country => country.Id == player.Country.Id);
+                    //ViewBag.Countries = _context.Country.ToList();
+                    
                     _context.Update(player);
                     await _context.SaveChangesAsync();
                 }
