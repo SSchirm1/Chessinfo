@@ -24,13 +24,19 @@ namespace Chessinfo.Controllers
         }
 
         // GET: Players
-        public async Task<IActionResult> Index()
+       
+
+        public async Task<IActionResult> Index(string searchString)
         {
-            
+            var players = from player in _context.Player select player;
 
-            return View(await _context.Player.Include(p => p.Country).Include(p => p.Title).OrderByDescending(p => p.classicalRating).ToListAsync());
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                players = players.Where(player => (player.FirstName.Contains(searchString) || player.LastName.Contains(searchString)));
+            }
+
+            return View(await players.Include(p => p.Country).Include(p => p.Title).OrderByDescending(p => p.classicalRating).ToListAsync());
         }
-
         // GET: Players/Details/5
         public async Task<IActionResult> Details(int? id)
         {
