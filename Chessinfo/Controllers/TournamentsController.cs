@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Chessinfo.Data;
 using Chessinfo.Models;
+using Chessinfo.Services;
 
 namespace Chessinfo.Controllers
 {
     public class TournamentsController : Controller
     {
         private readonly ChessinfoContext _context;
+        private readonly IGetterService _getterService;
 
-        public TournamentsController(ChessinfoContext context)
+        public TournamentsController(ChessinfoContext context, IGetterService getterService)
         {
             _context = context;
+            _getterService = getterService;
 
         }
 
@@ -47,6 +50,7 @@ namespace Chessinfo.Controllers
         // GET: Tournaments/Create
         public IActionResult Create()
         {
+            ViewBag.Players = _getterService.GetAll<Player>();
             return View();
         }
 
