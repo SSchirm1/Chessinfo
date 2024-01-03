@@ -36,11 +36,28 @@
                 <span asp-validation-for="Format" class="text-danger"></span>
             </div>
             <div>
+                <h3> Search and add players</h3>
+                <input type="text" id="playerSearchInput" placeholder="Search for player..." />
+                <ul id="searchResults">
+                    @foreach (var player in ViewBag.Players)
+                    {
+
+                        <li class="playerListItem" data-player-id="@player.Id">@player.FirstName @player.LastName</li>
+                    }
+                </ul>
+
+                <h3> Players added to tournament: </h3>
+                <ul id="selectedPlayers">
+
+                </ul>
+            </div>
+            <div>
+                <label asp-controller="Search" asp-action="SearchByName"> </label> 
                 <select>
                     @foreach(Player player in players)
                     {
                         <option value="@player.Id"> 
-                            @player.FirstName
+                            @player.FirstName @player.LastName
                         </option>
                     }
                 </select>
@@ -62,5 +79,29 @@
 </div>
 
 @section Scripts {
+    <script>
+        $(document).ready(function () {
+            // jQuery for handling player search and selection
+            $('#playerSearchInput').on('input', function () {
+                var searchTerm = $(this).val().toLowerCase();
+                $('#searchResults li').each(function () {
+                    var playerName = $(this).text().toLowerCase();
+                    if (playerName.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+
+            $('#searchResults li').on('click', function () {
+                var playerId = $(this).data('player-id');
+                var playerName = $(this).text();
+                $('#selectedPlayers').append('<li data-player-id="' + playerId + '">' + playerName + '</li>');
+            });
+        });
+    </script>
+     {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+}}
+
