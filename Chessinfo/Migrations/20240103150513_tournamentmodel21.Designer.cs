@@ -4,6 +4,7 @@ using Chessinfo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chessinfo.Migrations
 {
     [DbContext(typeof(ChessinfoContext))]
-    partial class ChessinfoContextModelSnapshot : ModelSnapshot
+    [Migration("20240103150513_tournamentmodel21")]
+    partial class tournamentmodel21
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,17 +61,12 @@ namespace Chessinfo.Migrations
                     b.Property<string>("Result")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TournamentId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("WhiteId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BlackId");
-
-                    b.HasIndex("TournamentId");
 
                     b.HasIndex("WhiteId");
 
@@ -171,9 +169,6 @@ namespace Chessinfo.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Rounds")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -188,17 +183,11 @@ namespace Chessinfo.Migrations
                         .WithMany()
                         .HasForeignKey("BlackId");
 
-                    b.HasOne("Chessinfo.Models.Tournament", "Tournament")
-                        .WithMany()
-                        .HasForeignKey("TournamentId");
-
                     b.HasOne("Chessinfo.Models.Player", "White")
                         .WithMany()
                         .HasForeignKey("WhiteId");
 
                     b.Navigation("Black");
-
-                    b.Navigation("Tournament");
 
                     b.Navigation("White");
                 });

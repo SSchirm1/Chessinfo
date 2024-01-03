@@ -35,8 +35,8 @@
                 <span asp-validation-for="classicalRating" class="text-danger"></span>
             </div>
             <div>
-                <label asp-for="TitleId">Title</label>
-                <select asp-for="TitleId">
+                <label asp-for="TitleId" class="control-label">Title</label>
+                <select asp-for="TitleId" class="form-control">
                     @foreach (var title in ViewBag.Titles)
                     {
 
@@ -48,7 +48,7 @@
              <div class="form-group">
                 <label asp-for="Country" class="control-label"></label>
                 
-                <select id="countriesSelect" asp-for="CountryId">
+                <select id="countriesSelect" asp-for="CountryId" class="form-control">
                     @foreach(var country in @ViewBag.Countries)
                     {
                         <option value="@country.Id" id=@country.Id asp-for="Country">@country.Name</option>
@@ -56,6 +56,10 @@
                 </select>
                
                 <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div>
+                <label class="control-label">Fide ID</label>
+                <input class="form-control" asp-for="FideId" type="text"/>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

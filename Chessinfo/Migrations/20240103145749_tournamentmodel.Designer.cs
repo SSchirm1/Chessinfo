@@ -4,6 +4,7 @@ using Chessinfo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chessinfo.Migrations
 {
     [DbContext(typeof(ChessinfoContext))]
-    partial class ChessinfoContextModelSnapshot : ModelSnapshot
+    [Migration("20240103145749_tournamentmodel")]
+    partial class tournamentmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,17 +61,12 @@ namespace Chessinfo.Migrations
                     b.Property<string>("Result")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TournamentId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("WhiteId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BlackId");
-
-                    b.HasIndex("TournamentId");
 
                     b.HasIndex("WhiteId");
 
@@ -106,9 +104,6 @@ namespace Chessinfo.Migrations
                     b.Property<int?>("TitleId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TournamentId")
-                        .HasColumnType("int");
-
                     b.Property<float?>("blitzRating")
                         .HasColumnType("real");
 
@@ -129,8 +124,6 @@ namespace Chessinfo.Migrations
                     b.HasIndex("CountryId");
 
                     b.HasIndex("TitleId");
-
-                    b.HasIndex("TournamentId");
 
                     b.ToTable("Player");
                 });
@@ -154,51 +147,17 @@ namespace Chessinfo.Migrations
                     b.ToTable("Title");
                 });
 
-            modelBuilder.Entity("Chessinfo.Models.Tournament", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Format")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Rounds")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tournament");
-                });
-
             modelBuilder.Entity("Chessinfo.Models.Game", b =>
                 {
                     b.HasOne("Chessinfo.Models.Player", "Black")
                         .WithMany()
                         .HasForeignKey("BlackId");
 
-                    b.HasOne("Chessinfo.Models.Tournament", "Tournament")
-                        .WithMany()
-                        .HasForeignKey("TournamentId");
-
                     b.HasOne("Chessinfo.Models.Player", "White")
                         .WithMany()
                         .HasForeignKey("WhiteId");
 
                     b.Navigation("Black");
-
-                    b.Navigation("Tournament");
 
                     b.Navigation("White");
                 });
@@ -213,18 +172,9 @@ namespace Chessinfo.Migrations
                         .WithMany()
                         .HasForeignKey("TitleId");
 
-                    b.HasOne("Chessinfo.Models.Tournament", null)
-                        .WithMany("Players")
-                        .HasForeignKey("TournamentId");
-
                     b.Navigation("Country");
 
                     b.Navigation("Title");
-                });
-
-            modelBuilder.Entity("Chessinfo.Models.Tournament", b =>
-                {
-                    b.Navigation("Players");
                 });
 #pragma warning restore 612, 618
         }

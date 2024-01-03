@@ -21,7 +21,12 @@ namespace Chessinfo.Models
         public float? rapidRating { get; set; }
         public float? blitzRating { get; set; }
 
+        public int? worldRank { get; set; } 
+
+        public int? nationalRank { get; set; }
+
          public int? TitleId { get; set; }  
 
+        public string? FideId { get; set; }
     }
 }

@@ -7,42 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Chessinfo.Data;
 using Chessinfo.Models;
-using Chessinfo.Migrations;
-using System.ComponentModel;
-using System.Diagnostics;
-using HtmlAgilityPack;
+using Chessinfo.Services;
 
 namespace Chessinfo.Controllers
 {
-    public class PlayersController : Controller
+    public class TournamentsController : Controller
     {
         private readonly ChessinfoContext _context;
+        private readonly IGetterService _getterService;
 
-        public List<Country> _countries;
-
-        public PlayersController(ChessinfoContext context)
+        public TournamentsController(ChessinfoContext context, IGetterService getterService)
         {
             _context = context;
+            _getterService = getterService;
 
         }
 
-        // GET: Players
-       
-
-        public async Task<IActionResult> Index(string searchString)
+        // GET: Tournaments
+        public async Task<IActionResult> Index()
         {
-            
-            var players = from player in _context.Player select player;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                players = players.Where(player => (player.FirstName.Contains(searchString) || player.LastName.Contains(searchString)));
-                // var fiderating = await fetchFideRating("1503014");
-            }
-
-            return View(await players.Include(p => p.Country).Include(p => p.Title).OrderByDescending(p => p.classicalRating).ToListAsync());
+            return View(await _context.Tournament.ToListAsync());
         }
-        // GET: Players/Details/5
+
+        // GET: Tournaments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -50,77 +37,63 @@ namespace Chessinfo.Controllers
                 return NotFound();
             }
 
-            var player = await _context.Player
+            var tournament = await _context.Tournament
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (player == null)
+            if (tournament == null)
             {
                 return NotFound();
             }
 
-            return View(player);
+            return View(tournament);
         }
 
-
-       
-
-        // GET: Players/Create
+        // GET: Tournaments/Create
         public IActionResult Create()
         {
-            ViewBag.Countries = _context.Country.ToList();
-            ViewBag.Titles = _context.Title.ToList();
+            ViewBag.Players = _getterService.GetAll<Player>();
             return View();
         }
 
-        // POST: Players/Create
+        // POST: Tournaments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,DateTime, classicalRating, Country")] Player player)
+        public async Task<IActionResult> Create([Bind("Id,Name,StartDate,EndDate,Format")] Tournament tournament)
         {
-            ViewBag.Countries = _context.Country.ToList();
-            ViewBag.Titles = _context.Title.ToList();
-
-            player.Country = _context.Country?.FirstOrDefault(country => country.Id == player.Country.Id);
-
-            if (ModelState.IsValid )
+            if (ModelState.IsValid)
             {
-
-                _context.Add(player);
+                _context.Add(tournament);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(player);
+            return View(tournament);
         }
 
-        // GET: Players/Edit/5
+        // GET: Tournaments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-
-            ViewBag.Countries = _context.Country.ToList();
-            ViewBag.Titles = _context.Title?.ToList();
             if (id == null)
             {
                 return NotFound();
             }
 
-            var player = await _context.Player.FindAsync(id);
-            
-            if (player == null)
+            var tournament = await _context.Tournament.FindAsync(id);
+            if (tournament == null)
             {
                 return NotFound();
             }
-            return View(player);
+            return View(tournament);
         }
 
-        // POST: Players/Edit/5
+        // POST: Tournaments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,DateTime, classicalRating, Country, CountryId, TitleId, FideId")] Player player)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate,Format")] Tournament tournament)
         {
-            if (id != player.Id)
+            if (id != tournament.Id)
             {
                 return NotFound();
             }
@@ -129,14 +102,12 @@ namespace Chessinfo.Controllers
             {
                 try
                 {
-                    //ViewBag.Countries = _context.Country.ToList();
-                    
-                    _context.Update(player);
+                    _context.Update(tournament);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PlayerExists(player.Id))
+                    if (!TournamentExists(tournament.Id))
                     {
                         return NotFound();
                     }
@@ -147,10 +118,10 @@ namespace Chessinfo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(player);
+            return View(tournament);
         }
 
-        // GET: Players/Delete/5
+        // GET: Tournaments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -158,34 +129,34 @@ namespace Chessinfo.Controllers
                 return NotFound();
             }
 
-            var player = await _context.Player
+            var tournament = await _context.Tournament
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (player == null)
+            if (tournament == null)
             {
                 return NotFound();
             }
 
-            return View(player);
+            return View(tournament);
         }
 
-        // POST: Players/Delete/5
+        // POST: Tournaments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var player = await _context.Player.FindAsync(id);
-            if (player != null)
+            var tournament = await _context.Tournament.FindAsync(id);
+            if (tournament != null)
             {
-                _context.Player.Remove(player);
+                _context.Tournament.Remove(tournament);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PlayerExists(int id)
+        private bool TournamentExists(int id)
         {
-            return _context.Player.Any(e => e.Id == id);
+            return _context.Tournament.Any(e => e.Id == id);
         }
     }
 }

@@ -18,5 +18,6 @@ namespace Chessinfo.Data
         public DbSet<Chessinfo.Models.Game> Game { get; set; } = default!;
         public DbSet<Chessinfo.Models.Title> Title { get; set; } = default!;
         public DbSet<Chessinfo.Models.Country> Country { get; set; } = default!;
+        public DbSet<Chessinfo.Models.Tournament> Tournament { get; set; } = default!;
     }
 }
