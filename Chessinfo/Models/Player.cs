@@ -27,5 +27,6 @@ namespace Chessinfo.Models
 
          public int? TitleId { get; set; }  
 
+        public string? FideId { get; set; }
     }
 }
